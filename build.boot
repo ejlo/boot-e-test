@@ -5,6 +5,7 @@
                  [adzerk/boot-cljs              "1.7.228-1" :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.0"     :scope "test"]
                  [adzerk/boot-reload            "0.4.7"     :scope "test"]
+                 [pandeiro/boot-http            "0.7.3"     :scope "test"]
                  [boot-deps                     "0.1.6"     :scope "test"]
                  [org.martinklepsch/boot-garden "1.3.0-0"   :scope "test"]
                  [org.clojure/tools.nrepl       "0.2.12"    :scope "test"]
@@ -20,6 +21,7 @@
  '[adzerk.boot-cljs-repl         :refer [cljs-repl start-repl]]
  '[adzerk.boot-reload            :refer [reload]]
  '[org.martinklepsch.boot-garden :refer [garden]]
+ '[pandeiro.boot-http            :refer [serve]]
  '[boot-deps                     :refer [ancient]])
 
 (deftask prod-build []
@@ -56,6 +58,7 @@
 
 (deftask dev []
   (comp
+   (serve)
    (watch)
    (dev-build)
    (target)))
