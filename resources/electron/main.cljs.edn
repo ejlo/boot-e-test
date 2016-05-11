@@ -1,0 +1,11 @@
+{:require  [app.main]
+ :init-fns [app.main/init]
+
+ ;; path.resolve(".") which is used in CLJS's node shim
+ ;; returns the directory `electron` was invoked in and
+ ;; not the directory our main.js file is in.
+ ;; Because of this we need to override the compilers `:asset-path option`
+ ;; See http://dev.clojure.org/jira/browse/CLJS-1444 for details.
+
+ :compiler-options {:target :nodejs
+                    :asset-path "target/electron/main.out"}}

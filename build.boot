@@ -33,32 +33,28 @@
 
 
 (deftask dev-build []
-  (comp ;; Audio feedback about warnings etc. =======================
-        (speak)
-        ;; Inject REPL and reloading code into renderer build =======
-        (cljs-repl :ids #{"renderer"})
-        (reload    :ids #{"renderer"}
-                   :on-jsload 'app.renderer/init
-                   :ws-host "localhost")
-        ;; Compile renderer =========================================
-        (cljs      :ids #{"renderer"})
+  (comp
+   ;; Inject REPL and reloading code into renderer build =======
+   (cljs-repl :ids #{"js/renderer"})
+   (reload    :ids #{"js/renderer"}
+              :on-jsload 'app.renderer/init
+              :ws-host "localhost")
 
-        (garden :styles-var 'app.styles/screen
-                :output-to "css/screen.css")
+   ;; Compile renderer =========================================
+   (cljs      :ids #{"js/renderer"})
 
-        ;; Compile JS for main process ==============================
-        ;; path.resolve(".") which is used in CLJS's node shim
-        ;; returns the directory `electron` was invoked in and
-        ;; not the directory our main.js file is in.
-        ;; Because of this we need to override the compilers `:asset-path option`
-        ;; See http://dev.clojure.org/jira/browse/CLJS-1444 for details.
-        (cljs      :ids #{"main"}
-                   :compiler-options {:asset-path "target/main.out"
-                                      :closure-defines {'app.main/dev? true}})))
+   ;; Compile css  =============================================
+   (garden    :styles-var 'app.styles/screen
+              :output-to "css/screen.css")
+
+   ;; Compile JS for electron main process =====================
+   (cljs      :ids #{"electron/main"}
+              :compiler-options {:closure-defines {'app.main/dev? true}})))
 
 (deftask dev []
   (comp
    (serve)
    (watch)
+   (speak)
    (dev-build)
-   (target)))
+   (target :dir #{"target"})))
