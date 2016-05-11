@@ -2,6 +2,7 @@
  :source-paths    #{"src/cljs" "src/styles"}
  :resource-paths  #{"resources"}
  :dependencies '[[org.clojure/clojurescript     "1.8.51"]
+                 [reagent                       "0.5.1"]
                  [adzerk/boot-cljs              "1.7.228-1" :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.0"     :scope "test"]
                  [adzerk/boot-reload            "0.4.7"     :scope "test"]
@@ -11,7 +12,6 @@
                  [org.clojure/tools.nrepl       "0.2.12"    :scope "test"]
                  [com.cemerick/piggieback       "0.2.1"     :scope "test"]
                  [weasel                        "0.7.0"     :scope "test"]
-
 ])
 
 (System/setProperty "BOOT_EMIT_TARGET" "no")
@@ -37,7 +37,7 @@
    ;; Inject REPL and reloading code into renderer build =======
    (cljs-repl :ids #{"js/renderer"})
    (reload    :ids #{"js/renderer"}
-              :on-jsload 'app.renderer/init
+              :on-jsload 'app.renderer/reload!
               :ws-host "localhost")
 
    ;; Compile renderer =========================================
