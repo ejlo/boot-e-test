@@ -1,5 +1,5 @@
 {
   "name"    : "boot-e-test",
   "version" : "0.1.0",
-  "main"    : "electron/main.js"
+  "main"    : "main.js"
 }

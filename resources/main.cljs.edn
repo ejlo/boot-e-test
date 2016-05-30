@@ -8,4 +8,4 @@
  ;; See http://dev.clojure.org/jira/browse/CLJS-1444 for details.
 
  :compiler-options {:target :nodejs
-                    :asset-path "target/electron/main.out"}}
+                    :asset-path "target/main.out"}}

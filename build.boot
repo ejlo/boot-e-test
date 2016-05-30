@@ -25,12 +25,12 @@
  '[boot-deps                     :refer [ancient]])
 
 (deftask prod-build []
-  (comp (cljs :ids #{"main"}
+  (comp (garden :styles-var 'app.styles/screen
+                :output-to "css/screen.css")
+        (cljs :ids #{"main"}
               :optimizations :simple)
-        (cljs :ids #{"renderer"}
+        (cljs :ids #{"js/renderer"}
               :optimizations :advanced)))
-
-
 
 (deftask dev-build []
   (comp
@@ -48,13 +48,18 @@
               :output-to "css/screen.css")
 
    ;; Compile JS for electron main process =====================
-   (cljs      :ids #{"electron/main"}
+   (cljs      :ids #{"main"}
               :compiler-options {:closure-defines {'app.main/dev? true}})))
 
 (deftask dev []
   (comp
-   (serve)
+   (serve :resource-root)
    (watch)
    (speak)
    (dev-build)
+   (target :dir #{"target"})))
+(deftask prod []
+  (comp
+   (speak)
+   (prod-build)
    (target :dir #{"target"})))

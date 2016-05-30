@@ -1,4 +1,4 @@
-(ns app.main) 
+(ns app.main)
 
 (def app           (js/require "app"))
 (def BrowserWindow (js/require "browser-window"))
