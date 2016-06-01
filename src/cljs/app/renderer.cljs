@@ -2,10 +2,12 @@
   (:require [reagent.core :as reagent :refer [atom]]))
 
 (defn main-page []
-  [:div "Hello World!"])
+  [:div "Hello World!"
+   [:p>a {:href "cards.html"} "Devcards"]])
 
 (defn mount-root! []
-  (reagent/render [main-page] (.getElementById js/document "app")))
+  (when-let [app (.getElementById js/document "app")]
+    (reagent/render [main-page] app)))
 
 (defn init! []
   (js/console.log "Starting Application!")

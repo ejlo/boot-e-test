@@ -1,7 +1,11 @@
 (ns app.main)
 
-(def app           (js/require "app"))
-(def BrowserWindow (js/require "browser-window"))
+(defn require [l]
+  (when-not (undefined? js/require)
+    (js/require l)))
+
+(def app           (require "app"))
+(def BrowserWindow (require "browser-window"))
 
 (goog-define dev? false)
 
