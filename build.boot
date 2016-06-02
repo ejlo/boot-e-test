@@ -52,10 +52,11 @@
    (cljs      :ids #{"js/devcards"}
               :compiler-options {:devcards true})))
 
-(deftask main-build []
+(deftask electron-main-build []
   (comp
    (cljs      :ids #{"main"}
-              :compiler-options {:closure-defines {'app.main/dev? true}})))
+              :compiler-options {:output-wrapper true
+                                 :closure-defines {'app.main/dev? true}})))
 
 (deftask css-build []
   (garden    :styles-var 'app.styles/screen
@@ -68,7 +69,7 @@
    (speak)
    (renderer-build)
    (devcards-build)
-   (main-build)
+   (electron-main-build)
    (css-build)
    (target :dir #{"target"})))
 
