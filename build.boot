@@ -5,7 +5,7 @@
                  [reagent                       "0.6.0-alpha"]
                  [adzerk/boot-cljs              "1.7.228-1" :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.0"     :scope "test"]
-                 [adzerk/boot-reload            "0.4.8-1"   :scope "test"]
+                 [org.clojars.samroberton/boot-reload "0.4.9-SNAPSHOT" :scope "test"]
                  [devcards                      "0.2.1-7"   :scope "test"]
                  [pandeiro/boot-http            "0.7.3"     :scope "test"]
                  [boot-deps                     "0.1.6"     :scope "test"]
