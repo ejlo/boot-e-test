@@ -25,6 +25,8 @@
  '[pandeiro.boot-http            :refer [serve]]
  '[boot-deps                     :refer [ancient]])
 
+
+
 (deftask prod-build []
   (comp (garden :styles-var 'app.styles/screen
                 :output-to "css/screen.css")
@@ -34,16 +36,18 @@
               :optimizations :advanced)))
 
 (deftask renderer-build []
+  (println "source-path, renderer: " (get-env :source-paths))
   (comp
    (cljs-repl :ids #{"js/renderer"})
    (reload    :ids #{"js/renderer"}
-              :on-jsload 'app.renderer/reload!
+              :on-jsload 'app.core/reload!
               :only-by-re [#"^js/renderer.out/.*"]
               :ws-host "localhost")
    (cljs      :ids #{"js/renderer"})))
 
 
 (deftask devcards-build []
+  (println "source-path, devcards: " (get-env :source-paths))
   (comp
    (reload    :ids #{"js/devcards"}
               :on-jsload 'app.devcards/reload!
@@ -53,6 +57,7 @@
               :compiler-options {:devcards true})))
 
 (deftask electron-main-build []
+  (println "source-path, main: " (get-env :source-paths))
   (comp
    (cljs      :ids #{"main"}
               :compiler-options {:output-wrapper true
@@ -62,14 +67,24 @@
   (garden    :styles-var 'app.styles/screen
              :output-to "css/screen.css"))
 
+#_(deftask test-build []
+  (set-env! :source-paths #(conj % "test"))
+  (comp
+   (reload    :ids #{"js/test"}
+              :on-jsload 'app.test/run!
+              :only-by-re [#"^js/test/.*"]
+              :ws-host "localhost")
+   (cljs      :ids #{"test"})))
+
 (deftask dev []
+  (set-env! :source-paths #(conj % "test"))
   (comp
    (serve :resource-root)
    (watch)
    (speak)
-   (renderer-build)
-   (devcards-build)
    (electron-main-build)
+   (devcards-build)
+   (renderer-build)
    (css-build)
    (target :dir #{"target"})))
 
