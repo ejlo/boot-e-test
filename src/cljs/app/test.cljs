@@ -1,7 +1,8 @@
 (ns app.test
   (:require [cljs.test :as t :refer [report]]
             [reagent.core :as reagent :refer [atom]]
-            [app.state :as state :refer [test-state]]))
+            [app.state :as state :refer [test-state]]
+            [app.renderer-test]))
 
 (enable-console-print!)
 
@@ -54,10 +55,12 @@
 
 
 (defn run-all! []
-  (when-not @test-is-running ;; TODO: rerun test later otherwise
-    (enable-console-print!)
-    (println "Running tests...")
-    (reset! fail-messages '())
-    (reset! test-is-running true)
-    (t/run-all-tests))
+  (if-not @test-is-running ;; TODO: rerun test later otherwise
+    (do (enable-console-print!)
+        (println "Running tests...")
+        (reset! fail-messages '())
+        (reset! test-is-running true)
+        (t/run-all-tests))
+    (println "Warning: tests already running")
+    )
   )

@@ -1,7 +1,6 @@
 (ns app.core
   (:require [app.renderer :as renderer]
-            [app.test :as test]
-            [app.renderer-test]))
+            [app.test :as test]))
 
 (defn init! []
   (renderer/init!)

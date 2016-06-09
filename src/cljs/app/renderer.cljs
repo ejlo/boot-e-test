@@ -1,7 +1,6 @@
 (ns app.renderer
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.state :as state :refer [test-state]]
-            [app.test :as test]))
+            [app.state :as state :refer [test-state]]))
 
 (defn test-component []
   (let [{:keys [pass fail error fail-messages]} @test-state
@@ -21,6 +20,7 @@
 (defn main-page []
   [:div.main "Hello World!"
    [:p>a {:href "cards.html"} "Devcards"]
+   [:p>a {:href "index.html"} "Main page"]
    [test-component]])
 
 (defn mount-root! []
