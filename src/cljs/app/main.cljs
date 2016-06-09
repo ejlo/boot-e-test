@@ -4,8 +4,9 @@
   (when-not (undefined? js/require)
     (js/require l)))
 
-(def app           (require "app"))
-(def BrowserWindow (require "browser-window"))
+(def electron (require "electron"))
+(def app (.-app electron))
+(def BrowserWindow (.-BrowserWindow electron))
 
 (goog-define dev? false)
 
@@ -18,9 +19,8 @@
   optimizations, for this we defined `dev?` above that we can override
   at compile time using the `:clojure-defines` compiler option."
   [window]
-  (if dev?
-      (.loadUrl window (str "file://" js/__dirname "/../../index.html"))
-      (.loadUrl window (str "file://" js/__dirname "/index.html"))))
+  (let [index (if dev? "/../../index.html" "/index.html")]
+    (.loadURL window (str "file://" js/__dirname index))))
 
 (def main-window (atom nil))
 
@@ -30,7 +30,7 @@
 (defn init-browser []
   (reset! main-window (mk-window 800 600 true true))
   (load-page @main-window)
-  (if dev? (.openDevTools @main-window))
+  (when dev? (.openDevTools @main-window))
   (.on @main-window "closed" #(reset! main-window nil)))
 
 (defn init []

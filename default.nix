@@ -6,7 +6,8 @@ with import <nixpkgs> {}; {
       nodejs
       grunt-cli
       bower
-      electron
+      # use local electron
+      #electron
       boot
       leiningen
     ];
